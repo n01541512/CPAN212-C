@@ -2,7 +2,7 @@ import express from 'express';
 import labRouter from './router/lab_router.js';
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 9000;
 
 app.use("/lab", labRouter);
 
