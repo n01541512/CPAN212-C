@@ -22,14 +22,23 @@ router.get("/add/:x/:y", (req, res) => {
 });
 
 router.get("/calculate", (req, res) => {
+    let a = parseFloat(req.params.a)
+    let b = parseFloat(req.params.b)
     switch (req.params.operator) {
         case "+":
-            
-            let a = parseFloat(req.params.a)
-            let b = parseFloat(req.params.b)
-
-            res.send(`${a+b}`)
+            res.send(`${a + b}`)
             break;
+        case "-":
+            res.send(`${a - b}`)
+            break;
+        case "*":
+            res.send(`${a * b}`)
+            break;
+        case "/":
+            res.send(`${a / b}`)
+            break;
+        default:
+            res.send("WRONG OPERATION");
     }
 });
 
