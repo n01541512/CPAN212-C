@@ -26,7 +26,7 @@ const App = () => {
 
   return (
     <div>
-      <button onClick={handleButton}> Click Me Pal</button>
+      <button onClick={handleButton}>Click Me Pal</button>
       <p>--------------------------------------------</p>
       <form onSubmit={handleLogin}></form>
     </div>
