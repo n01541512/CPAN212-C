@@ -1,4 +1,0 @@
-npm init -y
-npm i express nodemon
-npm i dotenv
-npm create vite@latest .

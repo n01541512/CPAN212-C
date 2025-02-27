@@ -1,51 +1,37 @@
 import express from "express";
-import cors from "cors";  // Add this import
-import multer from "multer";
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, '/uploads')
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-    cb(null, file.fieldname + '-' + uniqueSuffix)
-  }
-})
-
-const upload = multer({ storage: storage })
-
+import cors from "cors";
+import save_router from "./routers/save_router.js";
+import fetch_router from "./routers/fetch_router.js";
 
 const app = express();
 const PORT = process.env.PORT || 8000;
 
 // middleware
-app.use(cors());  // CORS middleware
-app.use(express.urlencoded({ extended: true })); // Plain HTML FORMS
-app.use(express.json()); // accepts JSON DATA
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cors());
 
 // routes
+app.use("/save", save_router);
+app.use("/fetch", fetch_router);
+
 app.get("/", (req, res) => {
-  res.send("Welcome to our server");
+  res.send("Welcome to the server, Check /api-list for available routes");
 });
 
-app.get("/data", (req, res) => {
-  res.json({
-    name: "Adel",
-    password: "Blahgriphy345$",
-    username: "Adelali"
-  });
-});
+app.get("/api-list", (req, res) => {
+  const apiList = {
+    save_routes: ["/save/single", "/save/multiple", "save/dog"],
+    fetch_routes: ["/fetch/single", "/fetch/multiple"],
+  };
 
-app.post("/login", (req, res) => {
-  console.log(req.body);
-  res.json("I got your information");
-});
-
-// 404 Error Handling Middleware - Should be placed at the end
-app.use((req, res) => {
-  res.status(404).send("Page not found");
+  res.send(apiList);
 });
 
 app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);
+});
+
+app.use("", (req, res) => {
+  res.send(`No request for ${req.url} exists`);
 });
