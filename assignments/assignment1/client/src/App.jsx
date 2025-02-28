@@ -1,35 +1,81 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect, useState } from 'react';
+import { Container, Row, Col, Card, ListGroup, ListGroupItem } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [resumeData, setResumeData] = useState(null);
+
+  useEffect(() => {
+    fetch('/resume')  
+      .then(response => response.json())
+      .then(data => setResumeData(data))
+      .catch(error => console.error('Error fetching resume data:', error));
+  }, []);
+
+  if (!resumeData) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <Container className="mt-4">
+      <Row>
+        <Col md={4}>
+          <Card>
+            <Card.Body>
+              <Card.Title>{resumeData.personalInfo.name}</Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">{resumeData.personalInfo.title}</Card.Subtitle>
+              <Card.Text>
+                <strong>Email:</strong> {resumeData.personalInfo.email}<br />
+                <strong>Phone:</strong> {resumeData.personalInfo.phone}
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
 
-export default App
+        <Col md={8}>
+          <Card className="mb-4">
+            <Card.Body>
+              <Card.Title>Skills</Card.Title>
+              <ListGroup>
+                {resumeData.skills.map((skill, index) => (
+                  <ListGroupItem key={index}>{skill}</ListGroupItem>
+                ))}
+              </ListGroup>
+            </Card.Body>
+          </Card>
+
+          <Card className="mb-4">
+            <Card.Body>
+              <Card.Title>Education</Card.Title>
+              {resumeData.education.map((education, index) => (
+                <div key={index}>
+                  <h5>{education.degree}</h5>
+                  <p><strong>{education.institution}</strong>, {education.year}</p>
+                </div>
+              ))}
+            </Card.Body>
+          </Card>
+
+          <Card className="mb-4">
+            <Card.Body>
+              <Card.Title>Experience</Card.Title>
+              {resumeData.experience.map((exp, index) => (
+                <div key={index}>
+                  <h5>{exp.company}</h5>
+                  <p><strong>{exp.role}</strong> ({exp.duration})</p>
+                  <ul>
+                    {exp.responsibilities.map((responsibility, subIndex) => (
+                      <li key={subIndex}>{responsibility}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
+
+export default App;
