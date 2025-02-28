@@ -8,9 +8,9 @@ app.use(cors());
 
 const resumeData = {
   personalInfo: {
-    name: "John Doe",
-    title: "Full Stack Developer",
-    email: "john.doe@example.com",
+    name: "Adel Ali",
+    title: "Computer Programmer",
+    email: "adel.ali@gmail.com",
     phone: "+1 234 567 890"
   },
   skills: [
@@ -24,8 +24,8 @@ const resumeData = {
   education: [
     {
       degree: "BSc Computer Science",
-      institution: "University of Example",
-      year: "2021"
+      institution: "Humber College",
+      year: "2022-2025"
     }
   ],
   experience: [

@@ -42,9 +42,9 @@
 .card {
   padding: 2em;
   color: blue;
-  display: inline-block; /* Aligns the card to the left */
-  margin-top: 1rem; /* Optional: gives some spacing between elements */
-  text-align: left; /* Aligns text inside card to the left */
+  display: inline-block; 
+  margin-top: 1rem; 
+  text-align: left; 
 }
 
 .read-the-docs {
