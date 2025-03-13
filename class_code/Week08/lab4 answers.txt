@@ -1,0 +1,31 @@
+db.laptops.find({ price: {$eq: 999.99} })
+db.laptops.find({ price: {$ne: 999.99} })
+
+db.laptops.find({ price: {$gt: 1500} })
+db.laptops.find({ price: {$lte: 1099.99} })
+
+// element operations
+db.laptops.find({description: {$exist: 1}})
+db.laptops.find({reviews: {$exist: false}})
+
+//arrays
+db.laptops.find({genres: "Gaming"})
+db.laptops.find({genres: {$in["Business" "Gaming"]}})
+
+db.laptops.createIndex({brand: "text", model: "text", processor: "text"})
+
+db.laptops.find({$text: $search: "performance" })
+
+// how to update and item
+"model" : "MacBook Air"
+db.laptops.updateOne(
+    {model: "MacBook Air"}, 
+    {
+        $push: {reviews: {
+                        user: "JohnD", 
+                        comment: "8 gb, plzz"
+                        rating: "3"
+                        }
+                    }
+                }
+            )
