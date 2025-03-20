@@ -4,7 +4,7 @@ import Book from "../models/book.js";
 const router = express.Router();
 
 // 1 - Read all books
-router.get("/all", (req, res) => {
+router.get("/all", (_req, res) => {
   Book.find()
     .then((results) => res.json(results))
     .catch((error) => res.status(500).json({ message: "Error fetching books", error }));
