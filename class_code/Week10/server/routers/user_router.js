@@ -96,4 +96,14 @@ router.get("/profile/:user_id", (req, res) => {
         });
 });
 
+router.get("/fetch-all", (_req, res) => {
+
+    let filters = {};
+    if (_req.query.title) {
+        filters.title = req.query.title;
+    }
+    User.find(filters, {password: 0})
+    User.findById()
+});
+
 export default router;
