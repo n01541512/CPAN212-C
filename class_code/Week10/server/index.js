@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import book_router from "./routers/book_router.js"
+import user_router from "./routers/user_router.js"
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
+app.use("/user", user_router);
 app.use("/book", book_router);
 
 // Connection
