@@ -100,9 +100,9 @@ router.get("/fetch-all", (_req, res) => {
 
     let filters = {};
     if (_req.query.title) {
-        filters.title = req.query.title;
+        filters.title = _req.query.title;
     }
-    User.find(filters, {password: 0})
+    User.find(filters, { password: 0 })
     User.findById()
 });
 
