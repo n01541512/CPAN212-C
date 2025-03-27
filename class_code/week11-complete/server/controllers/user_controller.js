@@ -1,8 +1,7 @@
 // controllers/userController.js
 import bcrypt from "bcryptjs";
 import User from "../models/user.js";
-import { generatePath } from "react-router-dom";
-import auth from "../middleware/auth.js";
+import auth from "../middlewares/auth.js";
 
 // Register user
 const registerUser = async (req, res) => {
@@ -53,11 +52,12 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const token = auth.callergenerateToken(user);
+    // Generate JWT token
+    const token = auth.generateToken(user); // remove
 
     res.status(200).json({
       message: "Login successful",
-      token: token,
+      token,
     });
   } catch (error) {
     console.error("Error during login:", error);

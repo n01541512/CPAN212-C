@@ -33,7 +33,7 @@ const addBook = async (req, res) => {
       genres,
       price,
       pages,
-      // created_by_user: req.user.userId, // Save the user who created the book
+      created_by_user: req.user.userId, // Save the user who created the book
     });
 
     await newBook.save();
@@ -75,11 +75,11 @@ const deleteBook = async (req, res) => {
     console.log("found book")
 
     // Check if the logged-in user is the one who created the book
-    // if (book.created_by_user.toString() !== req.user.userId.toString()) {
-    //   return res
-    //     .status(403)
-    //     .json({ message: "You are not authorized to delete this book" });
-    // }
+    if (book.created_by_user.toString() !== req.user.userId.toString()) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to delete this book" });
+    }
 
     // If the user is authorized, delete the book
     await Book.findByIdAndDelete(req.params.id);

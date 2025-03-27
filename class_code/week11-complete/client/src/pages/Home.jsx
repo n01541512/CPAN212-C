@@ -13,7 +13,13 @@ const Homepage = () => {
         const token = localStorage.getItem("authToken");
 
         // If token exists, include it in the Authorization header
-        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/books`);
+        const response = await fetch(`${import.meta.env.VITE_SERVER_URL}api/books`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Add the token to the request headers
+          },
+        });
 
         const data = await response.json();
         console.log(data);

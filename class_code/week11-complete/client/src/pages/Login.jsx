@@ -20,8 +20,10 @@ const Login = () => {
 
       const result = await response.json();
       if (response.ok) {
+        // Save the token to localStorage
+        localStorage.setItem('authToken', result.token);
+
         alert('Login successful!');
-        localStorage.setItem();
         navigate("/"); // Redirect to homepage or dashboard
       } else {
         setErrorMessage(result.message || 'Login failed.');
