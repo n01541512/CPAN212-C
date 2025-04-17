@@ -8,7 +8,7 @@ import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 
-import { notFound, errorHandler } from './middleware/errorMiddleware.js';
+import { notFound, errorHandler } from './middleware/errorHandler.js';
 
 dotenv.config();
 const app = express();
@@ -36,9 +36,9 @@ mongoose
   })
   .then(() => {
     console.log('MongoDB connected');
-    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
   .catch((err) => {
-    console.error('❌ MongoDB connection failed:', err.message);
+    console.error('MongoDB connection failed:', err.message);
     process.exit(1);
   });
