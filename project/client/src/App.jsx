@@ -2,11 +2,11 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
-import ProductPage from "./pages/ProductPage";
-import CartPage from "./pages/CartPage";
-import CheckoutPage from "./pages/CheckoutPage";
-import LoginPage from "./pages/LoginPage";
-import NotFoundPage from "./pages/NotFoundPage";
+import ProductPage from "./pages/Product";
+import CartPage from "./pages/Cart";
+import CheckoutPage from "./pages/Checkout";
+import LoginPage from "./pages/Login";
+import NotFoundPage from "./pages/NotFound";
 
 const App = () => {
   return (

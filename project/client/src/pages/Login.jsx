@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
 const Login = () => {
   console.log(import.meta.env.VITE_VITE_SERVER_URL)
   const navigate = useNavigate();
@@ -20,11 +19,9 @@ const Login = () => {
 
       const result = await response.json();
       if (response.ok) {
-        // Save the token to localStorage
         localStorage.setItem('authToken', result.token);
-
         alert('Login successful!');
-        navigate("/"); // Redirect to homepage or dashboard
+        navigate("/"); 
       } else {
         setErrorMessage(result.message || 'Login failed.');
       }

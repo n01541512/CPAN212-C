@@ -1,58 +1,44 @@
 import express from 'express';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 import cors from 'cors';
-import path from 'path';
+import morgan from 'morgan';
 
+import productRoutes from './routes/productRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
+
+import { notFound, errorHandler } from './middleware/errorMiddleware.js';
+
+dotenv.config();
 const app = express();
-const port = 5000;
 
 app.use(cors());
+app.use(express.json()); 
+app.use(morgan('dev'));  
 
-app.use(express.static(path.join(process.cwd(), 'client/build')));
+app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/orders', orderRoutes);
 
-const homepageData = {
-  hero: {
-    image: 'hero-image-url.jpg',
-    heading: 'Shop the Best Deals of the Season!',
-    subheading: 'Discover exclusive offers on top brands.',
-    promoText: 'Up to 50% off on select items. Limited time only!'
-  },
-  categories: [
-    { name: 'Electronics', products: [{ name: 'Smartphone', image: 'smartphone-image-url.jpg' }, { name: 'Laptop', image: 'laptop-image-url.jpg' }] },
-    { name: 'Fashion', products: [{ name: 'Men\'s Jacket', image: 'jacket-image-url.jpg' }, { name: 'Women\'s Dresses', image: 'dress-image-url.jpg' }] },
-    { name: 'Home & Kitchen', products: [{ name: 'Blender', image: 'blender-image-url.jpg' }, { name: 'Microwave', image: 'microwave-image-url.jpg' }] },
-    { name: 'Sports & Outdoors', products: [{ name: 'Yoga Mat', image: 'yoga-mat-image-url.jpg' }, { name: 'Hiking Boots', image: 'boots-image-url.jpg' }] }
-  ],
-  featuredProducts: [
-    { name: 'Wireless Headphones', price: '$99.99', rating: '⭐⭐⭐⭐☆', description: 'Noise-cancelling wireless headphones for superior sound quality.', image: 'headphones-image-url.jpg' },
-    { name: 'Men\'s Leather Jacket', price: '$149.99', rating: '⭐⭐⭐⭐⭐', description: 'Premium quality leather jacket available in multiple sizes.', image: 'jacket-image-url.jpg' },
-    { name: 'Stainless Steel Blender', price: '$59.99', rating: '⭐⭐⭐⭐☆', description: 'Blend smoothies and more with this powerful stainless steel blender.', image: 'blender-image-url.jpg' }
-  ],
-  bestSellers: [
-    { name: 'Bluetooth Speaker', price: '$39.99' },
-    { name: 'Portable Charger', price: '$19.99' },
-    { name: 'Smartwatch', price: '$89.99' },
-    { name: 'Fitness Tracker', price: '$49.99' }
-  ],
-  testimonials: [
-    { name: 'Emily R.', text: 'I love the quality of the products. Fast shipping too!' },
-    { name: 'John D.', text: 'Great customer service and the products are exactly as described.' },
-    { name: 'Sarah L.', text: 'The best shopping experience I\'ve ever had. Will shop again!' }
-  ],
-  promotions: [
-    { text: 'Sign up and get 10% off your first order!' },
-    { text: 'Buy 2, Get 1 Free on all accessories.' },
-    { text: 'Free shipping on orders over $50.' }
-  ]
-};
-
-app.get('/api/homepage', (req, res) => {
-  res.json(homepageData);
+app.get('/', (req, res) => {
+  res.send('API is running...');
 });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(process.cwd(), 'client/build/index.html'));
-});
+app.use(notFound);
+app.use(errorHandler);
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+const PORT = process.env.PORT || 5000;
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log('MongoDB connected');
+    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+  })
+  .catch((err) => {
+    console.error('❌ MongoDB connection failed:', err.message);
+    process.exit(1);
+  });
