@@ -15,7 +15,6 @@ const ProductDetail = () => {
 
   const handleAddToCart = () => {
     console.log('Add to cart', product._id, 'Qty:', qty);
-    // You could push to cart context or localStorage here
   };
 
   if (!product) return <p>Loading product...</p>;
